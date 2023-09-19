@@ -19,11 +19,9 @@ class PoseDetector(
     var minPoseDetectionConfidence: Float = DEFAULT_POSE_DETECTION_CONFIDENCE,
     var minPoseTrackingConfidence: Float = DEFAULT_POSE_TRACKING_CONFIDENCE,
     var minPosePresenceConfidence: Float = DEFAULT_POSE_PRESENCE_CONFIDENCE,
-    //var currentModel: Int = MODEL_POSE_LANDMARKER_FULL,
     var currentDelegate: Int = DELEGATE_CPU,
     var runningMode: RunningMode = RunningMode.LIVE_STREAM,
     val context: Context,
-    // this listener is only used when running in RunningMode.LIVE_STREAM
     val poseLandmarkerHelperListener: LandmarkerListener? = null
 ) {
 
@@ -43,10 +41,8 @@ class PoseDetector(
     }
 
     fun setupPoseLandmarker() {
-        // Set general pose landmarker options
         val baseOptionBuilder = BaseOptions.builder()
 
-        // Use the specified hardware for running the model. Default to CPU
         when (currentDelegate) {
             DELEGATE_CPU -> {
                 baseOptionBuilder.setDelegate(Delegate.CPU)
@@ -61,7 +57,6 @@ class PoseDetector(
 
         baseOptionBuilder.setModelAssetPath(modelName)
 
-        // Check if runningMode is consistent with poseLandmarkerHelperListener
         when (runningMode) {
             RunningMode.LIVE_STREAM -> {
                 if (poseLandmarkerHelperListener == null) {
@@ -72,14 +67,11 @@ class PoseDetector(
                 }
             }
             else -> {
-                // no-op
             }
         }
 
         try {
             val baseOptions = baseOptionBuilder.build()
-            // Create an option builder with base options and specific
-            // options only use for Pose Landmarker.
             val optionsBuilder =
                 PoseLandmarker.PoseLandmarkerOptions.builder()
                     .setBaseOptions(baseOptions)
@@ -88,7 +80,6 @@ class PoseDetector(
                     .setMinPosePresenceConfidence(minPosePresenceConfidence)
                     .setRunningMode(runningMode)
 
-            // The ResultListener and ErrorListener only use for LIVE_STREAM mode.
             if (runningMode == RunningMode.LIVE_STREAM) {
                 optionsBuilder
                     .setResultListener(this::returnLivestreamResult)
@@ -133,7 +124,6 @@ class PoseDetector(
         }
         val frameTime = SystemClock.uptimeMillis()
 
-        // Copy out RGB bits from the frame to a bitmap buffer
         val bitmapBuffer =
             Bitmap.createBitmap(
                 imageProxy.width,
@@ -145,10 +135,8 @@ class PoseDetector(
         imageProxy.close()
 
         val matrix = Matrix().apply {
-            // Rotate the frame received from the camera to be in the same direction as it'll be shown
             postRotate(imageProxy.imageInfo.rotationDegrees.toFloat())
 
-            // flip image if user use front camera
             if (isFrontCamera) {
                 postScale(
                     -1f,
@@ -163,7 +151,6 @@ class PoseDetector(
             matrix, true
         )
 
-        // Convert the input Bitmap object to an MPImage object to run inference
         val mpImage = BitmapImageBuilder(rotatedBitmap).build()
 
         detectAsync(mpImage, frameTime)
@@ -205,12 +192,9 @@ class PoseDetector(
         const val DEFAULT_POSE_DETECTION_CONFIDENCE = 0.5F
         const val DEFAULT_POSE_TRACKING_CONFIDENCE = 0.5F
         const val DEFAULT_POSE_PRESENCE_CONFIDENCE = 0.5F
-        const val DEFAULT_NUM_POSES = 1
         const val OTHER_ERROR = 0
         const val GPU_ERROR = 1
-        const val MODEL_POSE_LANDMARKER_FULL = 0
-        const val MODEL_POSE_LANDMARKER_LITE = 1
-        const val MODEL_POSE_LANDMARKER_HEAVY = 2
+
     }
 
     data class ResultBundle(

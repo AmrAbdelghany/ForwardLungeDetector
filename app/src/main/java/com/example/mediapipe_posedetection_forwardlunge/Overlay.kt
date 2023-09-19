@@ -11,7 +11,6 @@ import com.google.mediapipe.tasks.vision.core.RunningMode
 import com.google.mediapipe.tasks.vision.poselandmarker.PoseLandmarker
 import com.google.mediapipe.tasks.vision.poselandmarker.PoseLandmarkerResult
 import kotlin.math.max
-import kotlin.math.min
 
 class Overlay(context: Context?, attrs: AttributeSet): View(context, attrs) {
 
@@ -66,9 +65,6 @@ class Overlay(context: Context?, attrs: AttributeSet): View(context, attrs) {
                         linePaint)
                 }
             }
-            //val rightKnee = getAngle(poseLandmarkerResult.landmarks()[24],poseLandmarkerResult.landmarks()[24],poseLandmarkerResult.landmarks()[24])
-            //val leftKnee = getAngle(poseMarkers.get(23),poseMarkers.get(25),poseMarkers.get(27));
-
         }
 
     }
