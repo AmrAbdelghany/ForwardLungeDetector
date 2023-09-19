@@ -1,17 +1,24 @@
-# ForwardLungeDetector
-An app that detects the user's pose, calculates the knee angle to monitor forward lunge progress and counts reps for both left and right legs.
+#ForwardLungeDetector
+ForwardLungeDetector is an Android app designed to detect the user's pose, calculate knee angles, monitor forward lunge progress, and count repetitions for both left and right legs. It leverages MediaPipe for pose detection and analysis.
 
-This app uses MediaPipe for pose detection and then uses the leg landmarks to compute the knee angle to detect the progress of a forward lunge and count the correctly executed rep.
+#Project Structure
 
-The CameraFragment.kt controls the full flow of the app including starting the camera, initializing the Mediapipe model for pose detection, and drawing the detected pose skeleton on top of the user's body.
+#CameraFragment.kt
+CameraFragment.kt serves as the central control point for the app. It manages the camera setup, initializes the MediaPipe model for pose detection, and overlays the detected pose skeleton onto the camera stream in real-time.
 
-The poseDetector class is responsible for building the model, setting its options, and handling the model's variables.
+#poseDetector.kt
+poseDetector.kt is responsible for handling the MediaPipe model. It encompasses tasks such as building the model, configuring its options, and managing relevant variables.
 
-The overlay class is responsible for drawing the skeleton on top of the camera stream and updating it in real time
+#overlay.kt
+overlay.kt focuses on the visualization aspect of the app. It's in charge of drawing the pose skeleton on top of the camera stream and updating it dynamically.
 
-The permissions class is handling the required permissions for the app to run (Camera Permission), It requests the permission if does not have it already.
+#permissions.kt
+permissions.kt is dedicated to managing app permissions, particularly the camera permission. It requests this permission if not already granted.
 
+#ForwardlungeDetector.kt
+ForwardlungeDetector.kt contains the core logic for forward lunge detection and repetition counting. It extracts the detected pose data from the model, calculates knee angles (both left and right), determines if a forward lunge is performed, and displays the progress of a single repetition using the progress bar at the screen's bottom. Additionally, it keeps a count of repetitions for both the left and right legs, which is presented at the screen's bottom.
+File Locations
+All project files are organized within the following directory structure:
+app/src/main/java/com/mediapipe_posedetection_forwardlunge
 
-The Forward Lunge detection logic and rep counter are implemented in ForwardlungeDetector.kt, It gets the detected pose from the model and computes the angles for each knee (left and right), detects if a forward lunge is executed, and shows the progress of a single rep using the progress bar at the bottom of the screen. It also counts reps for the left and right legs that are shown at the bottom of the screen as well.
-
-
+This structure simplifies navigation and locates key components within the project.
