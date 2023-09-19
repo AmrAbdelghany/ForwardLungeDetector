@@ -16,7 +16,7 @@ overlay.kt focuses on the visualization aspect of the app. It's in charge of dra
 permissions.kt is dedicated to managing app permissions, particularly the camera permission. It requests this permission if not already granted.
 
 ### ForwardlungeDetector.kt
-ForwardlungeDetector.kt contains the core logic for forward lunge detection and repetition counting. It extracts the detected pose data from the model, calculates knee angles (both left and right), determines if a forward lunge is performed, and displays the progress of a single repetition using the progress bar at the screen's bottom. Additionally, it keeps a count of repetitions for both the left and right legs, which is presented at the screen's bottom.
+ForwardlungeDetector.kt contains the core logic for forward lunge detection and repetition counting. It extracts the detected pose data from the model, calculates knee angles (both left and right), determines if a forward lunge is performed, and displays the progress of a single repetition using the progress bar at the bottom of the screen. Additionally, it keeps a count of repetitions for both the left and right legs, which is presented at the bottom left of the screen.
 
 ## File Locations
 All project files are organized within the following directory structure:
